@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+
+    <h2>Welcome, {{ user.username }}!</h2>
+    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    <a href="{% url 'upload_microfile' %}" class="btn btn-primary">Upload Microfile</a>
+
+    <hr>
+
+    <!-- Microfile Section -->
+    <h3>Microfile</h3>
+    <p>Your uploaded images:</p>
+    <div class="row">
+        {% for microfile in microfiles %}
+        <div class="col-md-3">
+            <img src="{{ microfile.file.url }}" class="img-thumbnail" width="150">
+        </div>
+        {% empty %}
+        <p>No files uploaded.</p>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <!-- Display Data Section -->
+    <h3>Display Data</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Uploaded File</th>
+                <th>Uploaded At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                {% for microfile in microfiles %}
+                <td><img src="{{ microfile.file.url }}" width="100"></td>
+                <td>{{ microfile.uploaded_at }}</td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
